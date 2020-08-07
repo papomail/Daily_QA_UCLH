@@ -140,3 +140,4 @@ cython_debug/
 # RT Dicom Files
 RT_Ingenia_Coil_data
 RT_Ingenia_Coil_data.zip
+*.png
