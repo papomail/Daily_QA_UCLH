@@ -137,7 +137,10 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# RT Dicom Files
+# data and play files
 RT_Ingenia_Coil_data
 RT_Ingenia_Coil_data.zip
+testing
 *.png
+.DS*
+
