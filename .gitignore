@@ -139,9 +139,9 @@ cython_debug/
 
 # data and other files
 RT_Ingenia_Coil_data.zip
-DATA
-.vscode
+DATA/
+.vscode/
 testing
 *.png
-.DS*
+**/.DS_Store
 
