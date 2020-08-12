@@ -21,19 +21,19 @@ def convert2NIFTI(base_folder=Path.home()/'Sync/MRdata/Avanto_MR2',**kwargs):
     base_folder=Path(base_folder)
     
     # output_folder = kwargs.get('output_folder', 'NIFTI')
-    default_outdir=f'DQA_NIFTIs{now.strftime("_%d%b%Y")}'
+    default_outdir=str(base_folder/f'Results{now.strftime("_%d%b%Y")}'/f'DQA_NIFTIs')
+    
     output_folder = kwargs.get('output_folder', default_outdir)
     dcm2niix_path = kwargs.get('dcm2niix_path', 'dcm2niix')
     dcm2niix_flag = kwargs.get('dcm2nixx_flag', False) # Set dcm2nixx_flag=True to skip redoing the NIFTI conversion. (Creates an empty file 'dcm2niix_done' in every folder were dcm2niix was used). 
 
-    print('Checking if DICOM to NIFTI conversion is needed:\n')
+    print('\nChecking if DICOM to NIFTI conversion is needed...\n')
     ## get the testfolders in the base_folder (single child)
     testfolders=[folder for folder in sorted(base_folder.glob('*')) if folder.is_dir()]
     needs_dcm2niix=[]
     for i,testfolder in enumerate(testfolders):
-        print(testfolder)
-        print(output_folder)
-        nf=[str(k) for k in testfolder.glob(output_folder)]
+        # print(f'output_folder={output_folder}')
+        nf=[str(k) for k in testfolder.glob(Path(output_folder).stem)]
         qf=[str(k) for k in testfolder.glob("dcm2niix_done")]
         # print(f'nf={nf}')
         # print(f'qf={qf}')
@@ -43,17 +43,17 @@ def convert2NIFTI(base_folder=Path.home()/'Sync/MRdata/Avanto_MR2',**kwargs):
      
         if not (nf or qf):
             needs_dcm2niix.append(testfolder)
-            # print(f'testfolders[{i}]={testfolder} is empty')
+            
             
             
     
     output_folder2=[]
-    
+
     for i,folder in enumerate(needs_dcm2niix):
         
         
         # input_folder=needs_dcm2niix[0]
-        input_folder=folder
+        input_folder=folder if folder.name.lower() != 'dicom' else folder.parent #avoid using 'DICOM' as the output-folder name
         # output_folder.append(input_folder/output_folder)
         # output_folder2.append(Path('/Users/papo/Desktop/test/'+input_folder.name))
         output_folder2.append(Path(output_folder)/input_folder.name) #wip
@@ -64,11 +64,10 @@ def convert2NIFTI(base_folder=Path.home()/'Sync/MRdata/Avanto_MR2',**kwargs):
                 print(f'\nRunning dcm2niix on the following folder(s):')
             print(folder) 
         except:
-            print(f'Skipping {folder.name}  (already done)')
+            print(f'Skipping {folder.name}  (already converted)')
             continue
             
-    
-        dcm2niix_command=' '.join([dcm2niix_path,'-ba n','-o',str(output_folder2[i].resolve()), str(input_folder.resolve())])
+        dcm2niix_command=' '.join([dcm2niix_path, '-f %f_%p_%t_%s', '-ba n', '-o',str(output_folder2[i].resolve()), str(input_folder.resolve())])
         subprocess.run(dcm2niix_command, capture_output=True, shell=True) 
         
         if dcm2niix_flag:
@@ -76,7 +75,7 @@ def convert2NIFTI(base_folder=Path.home()/'Sync/MRdata/Avanto_MR2',**kwargs):
             subprocess.run(['touch', flag.resolve()])
 
 
-    print(f'\nNIFTI conversion step checked and completed.\n')
+    print(f'\nNIFTI conversion step checked and completed.\n\n\n')
 
     return(output_folder)
 
@@ -227,7 +226,7 @@ class SNR_test:
         new_header = results_df.iloc[0] 
         results_df = results_df[1:] 
         results_df.columns = new_header
-        results_df.to_csv(self.im1_path.parent/f'DQA_Results{datetime.now().strftime("_%d%b%Y")}')
+        results_df.to_csv(self.im1_path.parent/f'DQA_Results{datetime.now().strftime("_%d%b%Y")}.csv')
         self.results_df=results_df
         
         
