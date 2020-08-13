@@ -1,0 +1,1 @@
+*Each DQA test provides a single time-point measurement and it is important to run DQA tests regularly* . 
