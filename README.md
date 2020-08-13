@@ -43,7 +43,7 @@ Run one of the following commands:
 
 
 # How to use it
-The script runs in command line taking the path of folder with the DQA test data as a single argument.
+The script runs in command line taking the path to folder with the DQA data as a single argument.
 Assuming the following folder structure:
   
     ├── ...
@@ -63,7 +63,7 @@ Assuming the following folder structure:
 * To process a single dataset, e.g. test3, you would run:   
   `python run_DQA /DATA/test3`
 
-The script will automatically select the required files and process them.     Once finished, a summary of the results will be displayed in your browser.   
+The script will automatically select the required files and process them. Once finished, a summary of the results will be displayed in your browser.   
 A 'Results' folder will also be created inside the input folder, which will contain:
  - The converted NIFTI images.
  - PNG images showing the used ROI.
@@ -71,6 +71,7 @@ A 'Results' folder will also be created inside the input folder, which will cont
  - The summary of all tests (as a CSV file).
 
 ## Troubleshooting
+This is a pre-release version which may contain bugs. Please report bugs and suggest improvement in the [issues](https://github.com/papomail/Daily_QA_UCLH/issues) section on GitHub or directly by email at francisco.torreadeal@nhs.net.
 
 ## License
 
