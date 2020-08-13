@@ -1,20 +1,12 @@
 
 from pathlib import Path
 import numpy as np
-from matplotlib import pyplot as plt
 from datetime import datetime 
-
 from nilearn import plotting, image, masking
-from nilearn.plotting import plot_roi
-
 import pandas as pd
 import subprocess
-
 import json  
-from pandas import json_normalize, read_json
-import plotly
-import plotly.express as px
-
+from pandas import json_normalize
 # %%
 def convert2NIFTI(base_folder=Path.home()/'Sync/MRdata/Avanto_MR2',**kwargs): 
     now=datetime.now()
@@ -43,19 +35,12 @@ def convert2NIFTI(base_folder=Path.home()/'Sync/MRdata/Avanto_MR2',**kwargs):
      
         if not (nf or qf):
             needs_dcm2niix.append(testfolder)
-            
-            
-            
+                                  
     
     output_folder2=[]
-
     for i,folder in enumerate(needs_dcm2niix):
-        
-        
-        # input_folder=needs_dcm2niix[0]
+
         input_folder=folder if folder.name.lower() != 'dicom' else folder.parent #avoid using 'DICOM' as the output-folder name
-        # output_folder.append(input_folder/output_folder)
-        # output_folder2.append(Path('/Users/papo/Desktop/test/'+input_folder.name))
         output_folder2.append(Path(output_folder)/input_folder.name) #wip
         
         try:
@@ -66,7 +51,7 @@ def convert2NIFTI(base_folder=Path.home()/'Sync/MRdata/Avanto_MR2',**kwargs):
         except:
             print(f'Skipping {folder.name}  (already converted)')
             continue
-            
+
         dcm2niix_command=' '.join([dcm2niix_path, '-f %f_%p_%t_%s', '-ba n', '-o',str(output_folder2[i].resolve()), str(input_folder.resolve())])
         subprocess.run(dcm2niix_command, capture_output=True, shell=True) 
         
@@ -76,7 +61,6 @@ def convert2NIFTI(base_folder=Path.home()/'Sync/MRdata/Avanto_MR2',**kwargs):
 
 
     print(f'\nNIFTI conversion step checked and completed.\n\n\n')
-
     return(output_folder)
 
 
@@ -87,7 +71,6 @@ def parse_files(folder):
     file_dic=[]
     folder=Path(folder)
 
-
     ''' Make sure the NIFTI and JSON files correspond to each other 
     '''
     for (nifti, json) in zip(sorted(folder.rglob('*DQA*.nii')),sorted(folder.rglob('*DQA*.json'))):
@@ -95,7 +78,6 @@ def parse_files(folder):
             file_dic.append({ 'nifti':nifti, 'json':json })        
         else:
             raise Exception(f'NIFTI and JSON files do NOT match:\nNIFTI: {nifti.name}\nJSON:  {json.name}')
-
 
     ''' Make sure the NIFTIs correspond to the 1st and 2nd scans of the sequence (not from other sequences) 
     '''
@@ -127,7 +109,6 @@ def parse_files(folder):
         print(f'1st nifti: {n1}\n2nd nifti: {n2}')
     #     print(f'1st json: {j1}\n2nd json: {j2}')
         print(' ')
-
     return(file_dic2)
 
 
@@ -147,7 +128,7 @@ class SNR_test:
             i1 {[nilean image]} -- [1st volume] (default: {i1})
             i2 {[nilean image]} -- [2nd volume] (default: {i2})
         """
-        self.script_version=0.4
+        self.script_version=1.0
         self.im1_path=files['nifti1']
         im2_path=str(files['nifti2'])
         j1=str(files['json1'])
@@ -161,13 +142,13 @@ class SNR_test:
         self.create_results_df()
 #         self.plot()
     
+
     
     def load_json(self,jfile):
         with open(jfile) as f: 
             j = json.load(f) 
             j=json_normalize(j)
         return(j.transpose().to_dict()[0])
-
 
     
     def calc_SNR(self,signal,noise):
@@ -176,6 +157,7 @@ class SNR_test:
         SNR=np.nanmean(signal)/np.nanstd(noise)/np.sqrt(2)
         SNR_std=np.nanstd(signal)/np.nanstd(noise)/np.sqrt(2)
         return SNR,SNR_std
+
 
     def calc_global_SNR(self):
         self.imean=image.mean_img([self.i1, self.i2])
@@ -212,7 +194,6 @@ class SNR_test:
 
         
     def create_results_df(self):
-        
         results={'Name': self.name, 'NSNR': self.nSNR,'NSNR_std': self.nSNR_std, 
                   'SNR': self.SNR_global,'SNR_std': self.SNR_global_std, 
                   'File': str(self.im1_path.stem), 'AcquisitonMatrix': self.acquisiton_matrix, 
@@ -230,6 +211,7 @@ class SNR_test:
         self.results_df=results_df
         
         
+        
     def calc_SNR_map(self):
         pass
 
@@ -238,13 +220,5 @@ class SNR_test:
         # prod=image.math_img("(i2 * i1)", i1=self.mask, i2=self.imean)
         # html_view = plotting.view_img(prod, bg_img=self.imean, resampling_interpolation='linear',colorbar=False, title=f'{self.name}: nSNR={int(np.round(self.nSNR))}')
         # html_view.open_in_browser() 
-
         plotting.plot_roi(self.mask, self.imean,draw_cross=False,output_file=out_file,display_mode='tiled',title=f'{self.name}: nSNR={int(np.round(self.nSNR))}');
         
-
-    
-
-
-# %%
-#Run the SNR tests
-

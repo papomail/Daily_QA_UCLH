@@ -1,8 +1,8 @@
 # Coil DQA @UCLH
 
 ## About
-**Coil DQA @UCLH** contains the scripts to process data from the Daily Quality Assurance (DQA) tests run on MR coils at UCLH.  
-The results from DQA tests can be used to monitor the performance of MR coils over their service life and to allow for early diagnostic tool of. 
+This repository contains the script to process data from the Daily Quality Assurance (DQA) tests run on MR coils at UCLH.  
+Each DQA test provides a single time-point measurement. In order to can be used to monitor the  over their and allow the identification of as diagnostic tool of the performance of the MR coils. 
 
 
 ## License
@@ -12,7 +12,8 @@ This software is open source covered by the MIT license. See the [license.md](li
 
 ## Dependencies
 
-This software should run on macOS, Linux and Windows typically without requiring any other software. However, if you use dcm2niix to create gz-compressed images it will be faster if you have [pigz](https://github.com/madler/pigz) installed. You can get a version of both dcm2niix and pigz compiled for your operating system by downloading [MRIcroGL](https://www.nitrc.org/projects/mricrogl/).
+
+This software requires to have [dcm2niix](https://github.com/rordenlab/dcm2niix)(v1.0.20200331) installed. 
 
 ## Image Conversion and Compression
 

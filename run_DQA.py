@@ -1,21 +1,9 @@
-#%%
-
+from definitions_DQA import *
 from pathlib import Path
 import numpy as np
-from matplotlib import pyplot as plt
 from datetime import datetime 
-
-from nilearn import plotting, image, masking
-from nilearn.plotting import plot_roi
-
 import pandas as pd
-import subprocess
-
-import json  
-from pandas import json_normalize, read_json
-import plotly
 import plotly.express as px
-from definitions_DailyQA import *
 import sys
 
 
@@ -28,7 +16,7 @@ def run_tests(input_folder=Path.home()/'Sync/Projects/DQA_tests/DATA/RT_Ingenia_
 
     # Show results and combine them into a df
     frames=[]
-    plt.close('all')
+    # plt.close('all')
     for n,test in enumerate(tests):
         print(f'test {n+1}, {test.name}:\n   SNR={int(np.round(test.SNR_global))}\n   nSNR={int(np.round(test.nSNR))}\n')
         test.plot(out_file=Path(nifti_folder).parent/f'Test{n+1}_ROI.png')
