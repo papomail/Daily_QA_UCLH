@@ -1,7 +1,7 @@
 # Coil DQA @UCLH
 
 ## About
-This repository contains the script to process data from the Daily Quality Assurance (DQA) tests run on MR coils at UCLH.  
+This repository contains the scripts necessary to process data from the Daily Quality Assurance (DQA) tests run on MR coils at UCLH.  
 Each DQA test provides a single time-point measurement. In order to can be used to monitor the  over their and allow the identification of as diagnostic tool of the performance of the MR coils. 
 
 
