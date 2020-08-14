@@ -8,21 +8,24 @@
 The purpose of the DQA test is to acquire data from MR coils on a regular basis to monitor performance and alert of potential issues ahead of time.  
 These tests are meant to be short and easy to reproduce so that they can be run with minimal impact to the daily workload.
 
-*As each DQA test provides a single time-point measurement, it is important to run them regularly.* 
+*A single time-point measurement is useless out of context, please run the DQA tests regularly*.
+## Acquisition
 
-## Acquisitions
-
-In order for the DQA tests to be effective they should be: 
-* Consistent (i.e. use the same phantom & sequence parameters for each test in the same system).
-    * Use a TSE multi-slice sequence with a short echo-train length, e.g. 3.
+The DQA tests are based on the aquisition of a simple volumentric SpinEcho data with **2 dynamics** (repetitions).  
+But bare in mind that for the DQA tests to be effective they have to be: 
+* Consistent
+    * Use the same test phantoms 
     * Use the same scan parameters for consecutive tests, e.g.:   
 TR  = 1000 ms   
 TE = 30 ms   
 BW = 130 Hz/Pix  
 Image Filters: **off**   
 Distortion Correction: on 
-*	Quick&Easy to run (<5min).
-*	Cover a wide sensitive volume (e.g. for the spine elements the FOV covers the entire bottle phantom volume). 
+*	Quick&Easy to run (~5min)
+    * Use small a Matrix Size (256x256)
+    * Use a TSE multi-slice sequence to keep the scan time under control but keep a short echo-train length (e.g. ETL=3).
+*	Cover a wide sensitive volume 
+    * e.g. for the spine elements the FOV covers the entire bottle-phantom volume, with multiple thick slices
 *	Produce similar images per slice (e.g. sagittal scan for the foot phantom, coronal scan for breast phantom).  See section below.
 
 
@@ -42,14 +45,16 @@ In order to automatically identify the DICOM files with to the corresponding DQA
 
 The data processing scrip will use the text *before* '_DQA' as the coil name. (You can add any descriptive comment after '_DQA' for the acquisition, but it wont be used as the coil name in the code).
 
-##  Notes
+##  Good practices give good results
     
-* Allow **10s recovery between the dynamic scans** acquisitions.  
+* Allow **10s recovery between the dynamic scans**.  
 * Every time a phantom is positioned, **wait 2 minutes before starting the acquisition** to allow the fluid inside the phantom to stop moving.  
-* Check that the correct coil elements are selected (if necessary unclick *smart coil selection*).  
-* Run the scans with **no parallel imaging** (eg. SENSE or GRAPPA).
-* When testing similar coils (e.g. multiple flex coils, anterior, posterior elements) make sure to give each coil its own identifiable tag.   
+* Check that the **correct coil elements** are selected (if necessary unclick *smart coil selection*).  
+* Run the scans with **no parallel imaging** (no SENSE or GRAPPA).
+* When testing similar coils (e.g. multiple flex coils, anterior, posterior elements) make sure to give each coil its own **unique tag**.   
 * Export the data as ‘Single Frame’ DICOMS.
 * **Save the protocol** so it is easy to reproduce.
+
+
 
 

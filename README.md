@@ -43,6 +43,7 @@ Run one of the following commands:
 
 
 # How to use it
+
 The script runs in command line taking the path to folder with the DQA data as a single argument.
 Assuming the following folder structure:
   
@@ -63,6 +64,7 @@ Assuming the following folder structure:
 * To process a single dataset, e.g. test3, you would run:   
   `python run_DQA /DATA/test3`
 
+![](media/DQA_use.gif)
 The script will automatically select the [required files](dqa.md#labeling-acquisitions) and process them. Once finished, a summary of the results will be displayed in your browser.   
 A 'Results' folder will also be created inside the input folder, which will contain:
  - The converted NIFTI images.
