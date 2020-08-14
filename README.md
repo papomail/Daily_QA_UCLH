@@ -63,11 +63,11 @@ Assuming the following folder structure:
 * To process a single dataset, e.g. test3, you would run:   
   `python run_DQA /DATA/test3`
 
-The script will automatically select the required files and process them. Once finished, a summary of the results will be displayed in your browser.   
+The script will automatically select the [required files](dqa.md##How_to_label_the_tests) and process them. Once finished, a summary of the results will be displayed in your browser.   
 A 'Results' folder will also be created inside the input folder, which will contain:
  - The converted NIFTI images.
- - PNG images showing the used ROI.
- - Individual results of each test (as CSV files inside the corresponding folder).
+ - PNG images showing the ROI used for the analysis.
+ - The individual results of each test (as CSV files inside the corresponding folder).
  - The summary of all tests (as a CSV file).
 
 ## Troubleshooting
