@@ -43,7 +43,7 @@ The data processing scrip will use the description before 'DQA' to the coil name
 
 ##  Notes
     
-* Allowi 10s recovery between the dynamic scans acquisitions.  
+* Allow 10s recovery between the dynamic scans acquisitions.  
 * Every time a phantom is positioned, wait for a couple of minutes before starting the acquisition to allow the fluid to stop moving inside the phantom.  
 * Check that the correct coil elements are selected (if necessary unclick smart coil selection).  
 * In the Geometry tab set ‘Homogeneity correction=none‘ and ‘Clear=No’ to reduce smoothing/filtering of signal.    
