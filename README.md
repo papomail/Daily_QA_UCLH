@@ -73,7 +73,7 @@ A 'Results' folder will also be created inside the input folder, which will cont
  - The summary of all tests (as a CSV file).
 
 ## Troubleshooting
-This is a pre-release version which may contain bugs. Please report bugs and suggest improvement in the [issues](https://github.com/papomail/Daily_QA_UCLH/issues) section on GitHub or directly by email at francisco.torreadeal@nhs.net.
+This is a pre-release version which may contain bugs. Please report bugs and suggest improvements in the [issues](https://github.com/papomail/Daily_QA_UCLH/issues) section on GitHub or directly by email at francisco.torreadeal@nhs.net.
 
 ## License
 
