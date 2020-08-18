@@ -14,7 +14,7 @@ These tests are meant to be short and easy to reproduce so that they can be run 
 The DQA tests are based on the aquisition of a simple volumentric SpinEcho data with **2 dynamics** (repetitions).  
 But bare in mind that for the DQA tests to be effective they have to be: 
 * Consistent
-    * Use the same test phantoms 
+    * Always use the same test phantoms 
     * Use the same scan parameters for consecutive tests, e.g.:   
 TR  = 1000 ms   
 TE = 30 ms   
@@ -22,30 +22,29 @@ BW = 130 Hz/Pix
 Image Filters: **off**   
 Distortion Correction: on 
 *	Quick&Easy to run (~5min)
-    * Use small a Matrix Size (256x256)
+    * Use small a Matrix Size (<=256x256)
     * Use a TSE multi-slice sequence to keep the scan time under control but keep a short echo-train length (e.g. ETL=3).
 *	Cover a wide sensitive volume 
     * e.g. for the spine elements the FOV covers the entire bottle-phantom volume, with multiple thick slices
-*	Produce similar images per slice (e.g. sagittal scan for the foot phantom, coronal scan for breast phantom).  See section below.
 
 
 
 ## Positioning the test phantoms
-
+Produce similar images per slice (e.g. sagittal scan for the foot phantom, coronal scan for breast phantom).  See section below.
  
 
 
 
 
 ## Labeling the acquisitions
-In order to automatically identify the DICOM files with to the corresponding DQA datasets, the scans should be labelled using this *'Coil_Name_DQA'* pattern, e.g:
-- When testing the head elements of a Head&Neck coil label the acquisition as:    **HN_Head_DQA...** 
+In order to automatically identify the DICOM files with to the corresponding DQA datasets, the scans should be labelled using this *'Coil_Name_DQA'* pattern. Here are a few examples:
+- When testing the head element of a Head&Neck coil label the acquisition as:    **HN_Head_DQA...** 
 - For the anterior part of a BodyMatrix coil: **BM_Anterior_DQA...**
 - For a Large FlexCoil: **Flex_L_DQA...**
 
 The data processing scrip will use the text *before* '_DQA' as the coil name. (You can add any descriptive comment after '_DQA' for the acquisition, but it wont be used as the coil name in the code).
 
-##  Good practices give good results
+##  Good practices for best results
     
 * Allow **10s recovery between the dynamic scans**.  
 * Every time a phantom is positioned, **wait 2 minutes before starting the acquisition** to allow the fluid inside the phantom to stop moving.  
