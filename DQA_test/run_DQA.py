@@ -53,7 +53,7 @@ def run_tests(input_folder=Path.home() / folder_0):
     barchart.show()
 
 
-try:
-    run_tests(sys.argv[1])
-except:
-    run_tests()
+    try:
+        run_tests(sys.argv[1])
+    except:
+        run_tests()

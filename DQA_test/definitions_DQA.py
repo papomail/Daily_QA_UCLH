@@ -145,7 +145,7 @@ class SNR_test:
             i1 {[nilean image]} -- [1st volume] (default: {i1})
             i2 {[nilean image]} -- [2nd volume] (default: {i2})
         """
-        self.script_version = 1.0
+        self.script_version = 0.6
         self.im1_path = files["nifti1"]
         im2_path = str(files["nifti2"])
         j1 = str(files["json1"])

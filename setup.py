@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
    name='DQA_test',
-   version='0.6.1',
+   version='0.6.2',
    author='Patxi Torrealdea',
    author_email='francisco.torrealdea@nhs.net',
    packages=find_packages(),
