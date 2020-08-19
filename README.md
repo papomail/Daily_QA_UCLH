@@ -9,8 +9,8 @@ This repository gives instructions on how to install and use the script provided
 # Installation
 The script needs [Python 3](https://www.python.org/downloads/)  and [dcm2niix](https://github.com/rordenlab/dcm2niix)  software to work.  
 * To check if you have the required versions of Python and dcm2niix  installed, in a terminal run:    
-`python3 -V`   (Python version should  be $\small{\geq}$ 3.7)  
-`dcm2niix -u` (dcm2niix version needs to be $\small{\geq}$ v1.0.20200331)
+`python3 -V`   (Python version should  be <t>&ge;</t> 3.7)  
+`dcm2niix -u` (dcm2niix version needs to be <t>&ge;</t> v1.0.20200331)
 
 ###  Python 3:
 Download [Python 3](https://www.python.org/downloads/) from the official website and follow the installation instructions.
