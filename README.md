@@ -9,14 +9,14 @@ This repository gives instructions on how to install and use the script provided
 # Installation
 The script needs [Python 3](https://www.python.org/downloads/)  and [dcm2niix](https://github.com/rordenlab/dcm2niix)  software to work.  
 * To check if you have the required versions of Python and dcm2niix  installed, in a terminal run:    
-`python3 -V`   (Python version needs to be >3.7)  
-`dcm2niix -u` (dcm2niix version needs to be v1.0.20200331)
+`python3 -V`   (Python version should  be $\small{\geq}$ 3.7)  
+`dcm2niix -u` (dcm2niix version needs to be $\small{\geq}$ v1.0.20200331)
 
 ###  Python 3:
 Download [Python 3](https://www.python.org/downloads/) from the official website and follow the installation instructions.
 
 ### dcm2nix:
-Run one of the following commands:  
+To install the latest vesrion of dcm2niix run one of the following commands:  
 * On Linux:  
 `curl -fLO https://github.com/rordenlab/dcm2niix/releases/latest/download/dcm2niix_lnx.zip`
 * On Mac:  
@@ -24,7 +24,7 @@ Run one of the following commands:
 * On Windows:  
 `curl -fLO https://github.com/rordenlab/dcm2niix/releases/latest/download/dcm2niix_win.zip`
 
-(For more information visit [dcm2nix](https://github.com/rordenlab/) website)
+For more information visit [dcm2nix](https://github.com/rordenlab/) on GitHub.
 
 ### Install script and dependencies:
 * Clone or download this repository in a folder of your choosing, e.g. 'projects':  
