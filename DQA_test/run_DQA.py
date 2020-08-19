@@ -1,4 +1,4 @@
-import definitions_DQA as dqa
+from DQA_test import definitions_DQA as dqa
 from pathlib import Path
 import numpy as np
 from datetime import datetime
