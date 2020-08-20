@@ -16,20 +16,21 @@ The script needs [Python 3](https://www.python.org/downloads/)  and [dcm2niix](h
 Download [Python 3](https://www.python.org/downloads/) from the official website and follow the installation instructions.
 
 ### dcm2nix:
-You can install the latest version of dcm2niix as follows:   
-On Mac and Linux via Homebrew (install [Homebrew](https://brew.sh/) first if neeed):   
+You can install the latest version of dcm2niix in the following ways: 
+
+
+* On Mac and Linux via Homebrew (install [Homebrew](https://brew.sh/) first if neeed):   
 `brew install dcm2niix`
 
-If you are using Conda:   
+* If you are using Conda:   
 `conda install -c conda-forge dcm2niix` on Linux, MacOS or Windows.
 
-Alternatively, you can download the latest version of dcm2niix here and then add it to your local Path:  
-
-* Download for Linux:  
+Alternatively, you can download the latest version of dcm2niix the links below and then add it to your local Path:    
+ * Download for Linux:  
 `curl -fLOhttps://github.com/rordenlab/dcm2niix/releases/latest/download/dcm2niix_lnx.zip`
-* Download for Mac:  
+ * Download for Mac:  
 `curl -fLO https://github.com/rordenlab/dcm2niix/releases/latest/download/dcm2niix_mac.zip`
-* Download for Windows:  
+ * Download for Windows:  
 `curl -fLO https://github.com/rordenlab/dcm2niix/releases/latest/download/dcm2niix_win.zip`
 
  
