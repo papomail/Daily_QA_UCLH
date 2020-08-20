@@ -5,7 +5,7 @@
 
 
 
-The purpose of the DQA test is to acquire data from MR coils on a regular basis to monitor performance and alert of potential issues ahead of time.  
+The purpose of the DQA test is to acquire data from MR coils on a regular basis to monitor their performance and alert of potential issues ahead of time.  
 These tests are meant to be short and easy to reproduce so that they can be run with minimal impact to the daily workload.
 
 *A single time-point measurement is useless out of context, please run the DQA tests regularly*.
@@ -22,7 +22,7 @@ BW = 130 Hz/Pix
 Image Filters: **off**   
 Distortion Correction: on 
 *	Quick&Easy to run (~5min)
-    * Use small a Matrix Size (<=256x256)
+    * Use small a Matrix Size (<t>&le;</t>256x256)
     * Use a TSE multi-slice sequence to keep the scan time under control but keep a short echo-train length (e.g. ETL=3).
 *	Cover a wide sensitive volume 
     * e.g. for the spine elements the FOV covers the entire bottle-phantom volume, with multiple thick slices

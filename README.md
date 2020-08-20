@@ -34,7 +34,7 @@ For more information visit [dcm2nix](https://github.com/rordenlab/) on GitHub.
 
 * Create and activate a virtual environment for the project (recommended):  
   `cd Daily_QA_UCLH`  
-  `python -m venv dqa`  
+  `python3 -m venv dqa`  
   `source dqa/bin/activate`
 
 * Install python requirements:  
