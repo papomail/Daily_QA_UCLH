@@ -25,7 +25,7 @@ You can install the latest version of dcm2niix in the following ways:
 * If you are using Conda:   
 `conda install -c conda-forge dcm2niix` on Linux, MacOS or Windows.
 
-Alternatively, you can download the latest version of dcm2niix the links below and then add it to your local Path:    
+Alternatively, you can download the latest version of dcm2niix and then add it to your local Path:    
  * Download for Linux:  
 `curl -fLOhttps://github.com/rordenlab/dcm2niix/releases/latest/download/dcm2niix_lnx.zip`
  * Download for Mac:  
