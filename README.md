@@ -16,7 +16,7 @@ The script needs [Python 3](https://www.python.org/downloads/)  and [dcm2niix](h
 Download [Python 3](https://www.python.org/downloads/) from the official website and follow the installation instructions.
 
 ### dcm2nix:
-You can install the latest version of dcm2niix in the folowing ways:
+You can install the latest version of dcm2niix as follows:   
 On Mac and Linux via Homebrew (install [Homebrew](https://brew.sh/) first if neeed):   
 `brew install dcm2niix`
 
