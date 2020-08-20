@@ -1,11 +1,3 @@
-import sys
-try:
-    sys.argv[1]
-except:     
-    print('Please indicate which folder contains the DQA data?\ne.g. "run_DQA ~/DATA/test7"')
-    exit()
-
-
 from DQA_test import definitions_DQA as dqa
 from pathlib import Path
 import numpy as np
