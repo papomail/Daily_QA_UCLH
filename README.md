@@ -87,4 +87,4 @@ This is a pre-release version which may contain bugs. Please report bugs and sug
 
 ## License
 
-This software is open source covered by the MIT license. See the [license.md](license.md) file for more details.
+This software is open source covered by the MIT license. See the [license](license.md) file for more details.
