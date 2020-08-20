@@ -129,7 +129,7 @@ def parse_files(folder):
         n1 = files["nifti1"]
         n2 = files["nifti2"]
         print(f"SNR test number {test+1}:")
-        print(f"1st nifti: {n1}\n2nd nifti: {n2}")
+        print(f"1st nifti: {n1.name}\n2nd nifti: {n2.name}")
         print(" ")
     return file_dic2
 

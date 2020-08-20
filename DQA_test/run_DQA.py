@@ -1,15 +1,24 @@
+import sys
+try:
+    sys.argv[1]
+except:     
+    print('Please indicate which folder contains the DQA data?\ne.g. "run_DQA ~/DATA/test7"')
+    exit()
+
+
 from DQA_test import definitions_DQA as dqa
 from pathlib import Path
 import numpy as np
 from datetime import datetime
 import pandas as pd
 import plotly.express as px
-import sys
-
-folder_0 = "Sync/Projects/DQA_tests/DATA/RT_Ingenia_Coil_data"
 
 
-def run_tests(input_folder=Path.home() / folder_0):
+# folder_0 = "Sync/Projects/DQA_tests/DATA/RT_Ingenia_Coil_data"
+# def run_tests(input_folder=Path.home() / folder_0):
+
+
+def run_tests(input_folder):
     '''
     run_tests:
     Run the DQA tests for all the datasets found inside the 'input_folder' (recursively).
@@ -52,8 +61,12 @@ def run_tests(input_folder=Path.home() / folder_0):
     barchart.for_each_trace(lambda x: x.update(error_y_color=x.marker.color))
     barchart.show()
 
+#run the tests
+# run_tests(sys.argv[1])
 
-    try:
-        run_tests(sys.argv[1])
-    except:
-        run_tests()
+# try:
+#     run_tests(sys.argv[1])
+# except:
+#     print('Please indicate which folder contains the DQA data?\ne.g. "run_DQA ~/DATA/test7"')
+#     exit()
+     
