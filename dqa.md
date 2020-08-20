@@ -5,8 +5,7 @@
 
 
 
-The purpose of the DQA test is to acquire data from MR coils on a regular basis to monitor their performance and alert of potential issues ahead of time.  
-These tests are meant to be short and easy to reproduce so that they can be run with minimal impact to the daily workload.
+The purpose of the DQA tests is to acquire data from MR coils on a regular basis to monitor their performance and alert of potential issues ahead of time. These tests are meant to be short and easy to reproduce so that they can be run with minimal impact to the daily workload.
 
 *A single time-point measurement is useless out of context, please run the DQA tests regularly*.
 ## Acquisition
@@ -25,12 +24,13 @@ Distortion Correction: on
     * Use small a Matrix Size (<t>&le;</t>256x256)
     * Use a TSE multi-slice sequence to keep the scan time under control but keep a short echo-train length (e.g. ETL=3).
 *	Cover a wide sensitive volume 
-    * e.g. for the spine elements the FOV covers the entire bottle-phantom volume, with multiple thick slices
+    * e.g. for the spine elements the FOV covers the entire bottle-phantom volume, with multiple 5mm thick slices.
 
 
 
 ## Positioning the test phantoms
-Produce similar images per slice (e.g. sagittal scan for the foot phantom, coronal scan for breast phantom).  See section below.
+The test phatoms, which would normally be provided by the manufacturer (standard mineral oil bottles or a more speficic phatom for dedicated coils), should be placed in the centre of the coil's sensitive volume and scanned at the isocentre of the scanner. 
+The phatom should imaged in an orientation that would produce similar images per slice (e.g. sagittal scan for the foot phantom, coronal scan for breast phantom).  See section below.
  
 
 
