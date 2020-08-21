@@ -7,13 +7,14 @@
 ## Head & Neck coil:
 ![](media/HN.png) 
 
-* Test the both *Head* and *Neck* elements separetely and plan the acquisitions so that the images from both are alike.
+* Test the *Head* and *Neck* elements separetely and change the scan orientation so that the images from both elements are alike:
   
-![](media/HPlan.png)*Plan for head elements*
+![](media/HPlan.png)
+*Transverse orientation for the head elements*
 
 ![](media/NPlan.png)
- *Plan for neck elements* 
-
+*Sagittal orientation for tne neck elements*
+ 
 <br/><br/>
 
 ## Flex coils:
