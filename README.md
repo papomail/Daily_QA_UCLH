@@ -34,7 +34,7 @@ Alternatively, you can download the latest version of dcm2niix and then add it t
 `curl -fLO https://github.com/rordenlab/dcm2niix/releases/latest/download/dcm2niix_win.zip`
 
  
-For more information visit [dcm2nix](https://github.com/rordenlab/) on GitHub.
+For more information visit [dcm2nix](https://github.com/rordenlab/dcm2niix) on GitHub.
 
 ### Install script and dependencies:
 * Clone or download this repository in a folder of your choosing, e.g. 'projects':  
