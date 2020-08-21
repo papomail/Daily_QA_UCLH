@@ -54,7 +54,7 @@ For more information visit [dcm2nix](https://github.com/rordenlab/) on GitHub.
 
 # How to use it
 
-The script runs in command line taking the path to folder with the DQA data as a single argument.
+The script runs in command line taking the path to the folder with the DQA data as a single argument.
 Assuming the following folder structure:
   
     ├── ...
