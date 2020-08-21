@@ -45,12 +45,26 @@ In order to automatically identify the DICOM files with to the corresponding DQA
 - For the anterior part of a BodyMatrix coil: **BM_Anterior_DQA...**
 - For a Large FlexCoil: **Flex_L_DQA...**
 
-The data processing scrip will use the text *before* '_DQA' as the coil name. (You can add any descriptive comment after '_DQA' for the acquisition, but it wont be used as the coil name in the code).
+The data processing scrip will use the text *before* '_DQA' as the coil name. (You can add any descriptive comment after '_DQA' for the acquisition, but it wont be used as the coil name in the code). 
+<br/>
 
 ##  Good practices for best results
-    
-* Allow **10s recovery between the dynamic scans**.  
+
+![](media/flow.png) 
+*Visible flow patterns due to liquid moving inside the phantom. Wait a bit longer before starting the acquisition.* 
+
+<br/>
+
+![](media/no_flow.png)
+*The liquid has now stopped moving and you are ready to scan.*
+
+
+
+<br/>
+
+
 * Every time a phantom is positioned, **wait 2 minutes before starting the acquisition** to allow the fluid inside the phantom to stop moving.  
+* Allow **10s recovery between the dynamic scans**.  
 * Check that the **correct coil elements** are selected (if necessary unclick *smart coil selection*).  
 * Run the scans with **no parallel imaging** (no SENSE or GRAPPA).
 * When testing similar coils (e.g. multiple flex coils, anterior, posterior elements) make sure to give each coil its own **unique tag**.   
