@@ -75,7 +75,7 @@ Assuming the following folder structure:
   `python run_DQA /DATA/test3`
 
 ![](media/DQA_use.gif)
-The script will automatically select the [required files](dqa.md#labeling-acquisitions) and process them. Once finished, a summary of the results will be displayed in your browser.   
+The script will automatically select the [required files](dqa.md#labeling-the-acquisitions) and process them. Once finished, a summary of the results will be displayed in your browser.   
 A 'Results' folder will also be created inside the input folder, which will contain:
  - The converted NIFTI images.
  - PNG images showing the ROI used for the analysis.
