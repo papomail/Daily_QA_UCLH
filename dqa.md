@@ -40,7 +40,7 @@ See sections below for examples on how to position the test phantom on different
 
 
 ## Labeling the acquisitions
-In order to automatically identify the DICOM files with to the corresponding DQA datasets, the scans should be labelled using this *'Coil_Name_DQA'* pattern. Here are a few examples:
+In order to automatically identify the DICOM files with the corresponding DQA datasets, the scans should be labelled using this *'Coil_Name_DQA'* pattern. Here are a few examples:
 - When testing the head element of a Head&Neck coil label the acquisition as:    **HN_Head_DQA...** 
 - For the anterior part of a BodyMatrix coil: **BM_Anterior_DQA...**
 - For a Large FlexCoil: **Flex_L_DQA...**
