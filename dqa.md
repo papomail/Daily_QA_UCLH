@@ -31,7 +31,7 @@ Distortion Correction: on
 ## Positioning the test phantoms
 The test phatoms, which would normally be provided by the manufacturer (standard mineral oil bottles or more speficic phatoms for dedicated coils), should be placed in the centre of the coil's sensitive volume and scanned at the isocentre of the scanner.  
 
-See sections below for examples on how to position the test phantom on different systems.
+See sections below for examples on how to position the test phantoms on different systems.
 
 * [UCLH Radio Therapy](RT.md) (Philips Ingenia Ambition X) 
  
