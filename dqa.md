@@ -34,7 +34,7 @@ The test phantoms, which would normally be provided by the manufacturer (standar
 See sections below for examples on how to position the test phantoms on different systems.
 
 * [UCLH Radio Therapy](RT.md) (Philips Ingenia Ambition X) 
-* [UCLH Radiology - MR2](RT.md) (Siemens Avanto) 
+* [UCLH Radiology - MR2](MR2.md) (Siemens Avanto) 
 * [UCLH Royal ENT Eastman Dental Hospital](ENT.md) (Siemens MAGNETOM VIDA)
  
 
