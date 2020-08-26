@@ -21,7 +21,7 @@ Acquire *transverse* slices with Right-to-Left readout direction and half the ma
 
 
 Parameters used in previous test:
-* TR: 1000 ms 
+* TR: 1000 ms
 * TE: 30 ms
 * Pixel BW: 130 Hz
 * FOV: 450mm Readwith 50% PE 
