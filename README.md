@@ -1,6 +1,6 @@
 # About
 
-The [Daily Quality Assurance (DQA) tests](dqa.md) provide a quick diagnostic tool to monitor the performance of MR coils over their service life.   
+The [Daily Quality Assurance (DQA) tests](DQA.md) provide a quick diagnostic tool to monitor the performance of MR coils over their service life.   
 
 This repository gives instructions on how to install and use the script provided to process data from the DQA tests performed on MR coils at UCLH.  
 

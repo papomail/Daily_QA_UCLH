@@ -5,20 +5,20 @@
 <br/><br/>
 
 ## Head & Neck coil:
-![](media/HN.png) 
+![](media/RT/HN.png) 
 
-* Test the *Head* and *Neck* elements separetely and change the scan orientation so that the images from both elements are alike:
+* Test the *Head* and *Neck* elements separately and change the scan orientation so that the images from both elements are alike:
   
-![](media/HPlan.png)
+![](media/RT/HPlan.png)
 *Transverse orientation for the head elements*
 
-![](media/NPlan.png)
+![](media/RT/NPlan.png)
 *Sagittal orientation for tne neck elements*
  
 <br/><br/>
 
 ## Flex coils:
-![](media/Flex.png) 
+![](media/RT/Flex.png) 
 
 
 
@@ -28,8 +28,8 @@
 <br/><br/>
 
 ## Anterior coil:
-![](media/Anterior.png)
+![](media/RT/Anterior.png)
 
 
-![](media/APlan.png)
+![](media/RT/APlan.png)
 *Anterior coil planning*
