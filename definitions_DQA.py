@@ -61,8 +61,8 @@ def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
 
         dcm2niix_command = " ".join(
             [
-                dcm2niix_path,
-                "-f %f_%p_%t_%s",
+                dcm2niix_path, # -f %f_%p_%t_%s    remove %f_ to exclude the folder_name in .nii files
+                "-f %p_%t_%s",
                 "-ba n",
                 "-o",
                 str(output_folder2[i].resolve()),
@@ -102,7 +102,7 @@ def parse_files(folder):
     run_through= round(len(file_dic) / 2)
     if len(file_dic)%2 != 0:
         run_through=run_through-1
-        
+
     for i in range(run_through):
         f1 = next(itr)
         f2 = next(itr)
@@ -133,7 +133,7 @@ def parse_files(folder):
         n1 = files["nifti1"]
         n2 = files["nifti2"]
         print(f"SNR test number {test+1}:")
-        print(f"1st nifti: {n1}\n2nd nifti: {n2}")
+        print(f"1st nifti: {n1.name}\n2nd nifti: {n2.name}")
         print(" ")
     return file_dic2
 
