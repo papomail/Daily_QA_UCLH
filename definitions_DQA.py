@@ -99,7 +99,11 @@ def parse_files(folder):
     """
     itr = iter(file_dic)
     file_dic2 = []
-    for i in range(round(len(file_dic) / 2)):
+    run_through= round(len(file_dic) / 2)
+    if len(file_dic)%2 != 0:
+        run_through=run_through-1
+        
+    for i in range(run_through):
         f1 = next(itr)
         f2 = next(itr)
 
