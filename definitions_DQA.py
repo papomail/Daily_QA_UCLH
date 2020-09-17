@@ -171,8 +171,10 @@ class SNR_test:
     def calc_SNR(self, signal, noise):
         signal[signal == 0] = np.nan
         #         noise[signal==0]=np.nan
-        SNR = np.nanmean(signal) / np.nanstd(noise) / np.sqrt(2)
-        SNR_std = np.nanstd(signal) / np.nanstd(noise) / np.sqrt(2)
+        sig=np.nanmean(signal)
+        noise_std=np.nanstd(noise) 
+        SNR = sig / noise_std / np.sqrt(2)
+        SNR_std = np.nanstd(signal) / noise_std / np.sqrt(2)
         return SNR, SNR_std
 
     def calc_global_SNR(self):
