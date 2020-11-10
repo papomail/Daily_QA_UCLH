@@ -14,6 +14,8 @@ import pandas as pd
 import plotly.express as px
 import sys
 
+# coil_list=['Spine1','Spine2','Spine3', 'Spine4','Spine5','Spine6','Spine7','Spine8']
+coil_list=['SP1','SP2','SP3', 'SP4','SP5','SP6','SP7', 'BM_', 'BMlong', 'Breast_r', 'Breast_Biopsy', 'FlexSmall', 'FlexLarge','Hand','Foot','Knee']
 
 def run_tests(input_folder):
     '''
@@ -26,7 +28,7 @@ def run_tests(input_folder):
 
     input_folder = Path(input_folder)
     nifti_folder = dqa.convert2NIFTI(input_folder)
-    test_files = dqa.parse_files(nifti_folder)
+    test_files = dqa.parse_files(nifti_folder,coil_list)
     tests = [dqa.SNR_test(files) for files in test_files]
 
     # Show results and combine them into a df

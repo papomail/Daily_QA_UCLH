@@ -6,6 +6,7 @@ import pandas as pd
 import subprocess
 import json as js
 from pandas import json_normalize
+from skimage import filters
 
 
 def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
@@ -79,21 +80,27 @@ def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
     return output_folder
 
 
-def parse_files(folder):
+def parse_files(folder, keywords):
     file_dic = []
     folder = Path(folder)
-
-    """ Make sure the NIFTI and JSON files correspond to each other 
+    
+    """ Search for keywords to filter data with 
+        and
+        Make sure the NIFTI and JSON files correspond to each other 
     """
-    for (nifti, json) in zip(
-        sorted(folder.rglob("*DQA*.nii")), sorted(folder.rglob("*DQA*.json"))
-    ):
-        if nifti.stem == json.stem:
-            file_dic.append({"nifti": nifti, "json": json})
-        else:
-            raise Exception(
-                f"NIFTI and JSON files do NOT match:\nNIFTI: {nifti.name}\nJSON:  {json.name}"
-            )
+    for keword in keywords:
+        nii_key=f"*{keword}*.nii"
+        json_key=f"*{keword}*.json"
+        
+        for (nifti, json) in zip(
+            sorted(folder.rglob(nii_key)), sorted(folder.rglob(json_key))
+        ):
+            if nifti.stem == json.stem:
+                file_dic.append({"nifti": nifti, "json": json})
+            else:
+                raise Exception(
+                    f"NIFTI and JSON files do NOT match:\nNIFTI: {nifti.name}\nJSON:  {json.name}"
+                )
 
     """ Make sure the NIFTIs correspond to the 1st and 2nd scans of the sequence (not from other sequences) 
     """
@@ -107,11 +114,13 @@ def parse_files(folder):
         f1 = next(itr)
         f2 = next(itr)
 
+        f1stem = f1["nifti"].stem
         f2stem = f2["nifti"].stem
         suffix_index = f2stem.rfind("_")
+        f1_nosuffix = f1stem[0:suffix_index]
         f2_nosuffix = f2stem[0:suffix_index]
 
-        if f1["nifti"] != f2["nifti"] and f1["nifti"].stem == f2_nosuffix:
+        if f1["nifti"] != f2["nifti"] and  f1_nosuffix == f2_nosuffix:
             file_dic2.append(
                 {
                     "nifti1": f1["nifti"],
@@ -154,7 +163,10 @@ class SNR_test:
         im2_path = str(files["nifti2"])
         j1 = str(files["json1"])
         name = str(files["nifti1"].stem)
-        self.name = name[0 : name.find("_DQA")]
+        # self.name = name[0 : name.find("_DQA")]
+        # self.name = name[0 : name.find("_SNR")]
+        self.name = name[0 : name.find("_routine")]
+# 
         self.i1 = image.load_img(str(self.im1_path))
         self.i2 = image.load_img(im2_path)
         self.j1 = self.load_json(j1)
@@ -180,7 +192,16 @@ class SNR_test:
     def calc_global_SNR(self):
         self.imean = image.mean_img([self.i1, self.i2])
         self.isub = image.math_img("(i2 - i1)", i1=self.i1, i2=self.i2)
+        
         self.mask = masking.compute_epi_mask(self.imean)
+        if not self.mask.get_fdata().any():
+            im = self.imean.get_fdata()[:,:,0]
+            thresh = filters.threshold_otsu(im)
+            binary = im > thresh
+            mask2 = self.imean.get_fdata().copy()
+            mask2[:,:,0]=binary
+            self.mask = image.new_img_like(self.imean, mask2)
+
         imean = masking.apply_mask(self.imean, self.mask)
         isub = masking.apply_mask(self.isub, self.mask)
         self.SNR_global, self.SNR_global_std = self.calc_SNR(imean, isub)
@@ -190,7 +211,12 @@ class SNR_test:
         # nbw=sqrt(bw/30)
         # nSNR=SNR*nbw*Slice_fact
         info = self.j1
-        npe = info["PhaseEncodingSteps"]
+        try:
+            npe = info["PhaseEncodingSteps"]
+        except:
+            npe = info["AcquisitionMatrixPE"]
+
+
         nfe = int(np.round(100 * npe / info["PercentSampling"]))
         self.sl_thk = info["SliceThickness"]
         self.TR = info["RepetitionTime"]
@@ -209,6 +235,7 @@ class SNR_test:
             self.pixel_bandwidth * nfe / 1000
         )  # Or PixelBandwidth*info['ReconMatrixPE'] ?
         nBW = np.sqrt(self.BW_KHz / 30)
+        # print(f"nBW: { nBW }, Slice_fact = {Slice_fact}\n")
         self.nSNR = self.SNR_global * nBW * Slice_fact
         self.nSNR_std = self.SNR_global_std * nBW * Slice_fact
 
@@ -236,6 +263,10 @@ class SNR_test:
         file_name = f'DQA_Results{datetime.now().strftime("_%d%b%Y")}.csv'
         results_df.to_csv(self.im1_path.parent / file_name)
         self.results_df = results_df
+
+    def df2mysql(self):
+        self.results_df.to_sql(con=con, name='table_name_for_df', if_exists='replace', flavor='mysql')
+
 
     def calc_SNR_map(self):
         pass
