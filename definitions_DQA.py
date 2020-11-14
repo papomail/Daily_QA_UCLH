@@ -21,7 +21,7 @@ def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
     output_folder = kwargs.get("output_folder", default_outdir)
     dcm2niix_path = kwargs.get("dcm2niix_path", "dcm2niix")
     dcm2niix_flag = kwargs.get(
-        "dcm2nixx_flag", False
+        "dcm2niix_flag", False
     )  # Set dcm2nixx_flag=True to skip redoing the NIFTI conversion. (Creates an empty file 'dcm2niix_done' in every folder were dcm2niix was used).
 
     print("\nChecking if DICOM to NIFTI conversion is needed...\n")
