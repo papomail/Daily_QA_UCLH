@@ -12,6 +12,9 @@ From the main DQA tree (outside UCLH protocols), select the region and coil to b
 **DQA > Torso > Body18 long**   
 If needed adjust the planning so that the phantom is centred in FOV and run the protocol as is.
 
+
+## Exporting the data
+Export the data to PACS as a regular patient.
 <br/><br/>
 
 ## Positioning of phantoms
