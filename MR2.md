@@ -5,6 +5,7 @@
 ## Protocol selection 
 From the main DQA tree (outside UCLH protocols), select the region and coil to be tested, i.e:   
 **DQA > Torso > Body18 long**
+If needed adjust the planning so that the phantom is centred in FOV and run the protocol as is.
 
 <br/><br/>
 
