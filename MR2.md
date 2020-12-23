@@ -15,6 +15,12 @@ Make sure only the coil of interest is selected before starting the acquisition.
 ![](media/guide.png) 
 ![](media/MR2/body18.png) 
 
+<br/><br/>
+
+## Spine coils
+Place the long support foam on top of the spine-coil element to be tested and make sure it propeperly centred and align using the positioning laser of the scanner. Place the the bottle phantom centred on top of the foam.   
+Ensure the breast coil is selected before starting the acquisition.
+![](media/MR2/spine.png) 
 
 <br/><br/>
 
@@ -22,13 +28,6 @@ Make sure only the coil of interest is selected before starting the acquisition.
 Place the breast phantoms (or 2 mineral oil bottles) standing inside the coil.   
 Ensure the breast coil is selected before starting the acquisition.
 ![](media/MR2/breast.png) 
-
-<br/><br/>
-
-## Spine coils
-Place the long support foam on top of the spine-coil element to be tested and make sure it propeperly centred and align using the positioning laser of the scanner. Place the the bottle phantom centred on top of the foam.   
-Ensure the breast coil is selected before starting the acquisition.
-![](media/MR2/spine.png) 
 
 <br/><br/>
 
