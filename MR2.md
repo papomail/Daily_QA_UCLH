@@ -1,9 +1,12 @@
 
 # UCLH Radiology - MR2 (Siemens Avanto) 
-## Protocol selection 
-From the main DQA tree (outside UCLH protocols), select the region and coil to be tested. 
-I.e. **DQA > Torso > Body18 long**
+<br/><br/>
 
+## Protocol selection 
+From the main DQA tree (outside UCLH protocols), select the region and coil to be tested, i.e:   
+**DQA > Torso > Body18 long**
+
+<br/><br/>
 
 ## DQA tests: Positioning of phantoms
 
