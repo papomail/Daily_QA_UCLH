@@ -17,7 +17,7 @@ If needed adjust the planning so that the phantom is centred in FOV and run the 
 Export the data to PACS as a regular patient.
 <br/><br/>
 
-## Positioning of phantoms
+# Positioning of phantoms
 
 ## Head & Neck coil:
 Using foam support, place the bottle phantom inside the head coil until it touches it.
