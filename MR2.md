@@ -2,6 +2,12 @@
 # DQA tests: UCLH Radiology - MR2 (Siemens Avanto) 
 <br/><br/>
 
+## Labelling the DQA exams
+Create a new exam and enter the patient name as: 'DQA' + Coil to be tested. e.g:   
+**DQA Spine3***
+
+<br/><br/>
+
 ## Protocol selection 
 From the main DQA tree (outside UCLH protocols), select the region and coil to be tested, i.e:   
 **DQA > Torso > Body18 long**   
@@ -43,5 +49,10 @@ Ensure the breast coil is selected before starting the acquisition.
 Place 2 bottle phantoms parallel to each other along the xy axis on the scanner table. Lightly wrap the phantoms with the coils on top. Make sure the centre of the coil is between the 2 bottles and the centre of the coil goes to the isocentre of the scanner (as shown below).   
 Make sure only the coil of interest is selected before starting the acquisition.
 ![](media/MR2/torso.png) 
+
+
+
+* The position the phantoms should be same as for the Siemens 'Customer QA' tests in:   
+***Options > Service > Customer QA***
 
 
