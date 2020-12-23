@@ -1,5 +1,5 @@
 
-# UCLH Radiology - MR2 (Siemens Avanto) 
+# DQA tests: UCLH Radiology - MR2 (Siemens Avanto) 
 <br/><br/>
 
 ## Protocol selection 
@@ -8,9 +8,7 @@ From the main DQA tree (outside UCLH protocols), select the region and coil to b
 
 <br/><br/>
 
-## DQA tests: Positioning of phantoms
-
-<br/><br/>
+## Positioning of phantoms
 
 ## Head & Neck coil:
 Using foam support, place the bottle phantom inside the head coil until it touches it.
