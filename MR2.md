@@ -3,8 +3,8 @@
 <br/><br/>
 
 ## Labelling the DQA exams
-Create a new exam and enter the patient name as: 'DQA' + Coil to be tested. e.g:   
-**DQA Spine3***
+Create a new exam and enter the patient name as: 'DQA' + Coil to be tested. 
+e.g:   **DQA Spine3**
 
 <br/><br/>
 
@@ -52,7 +52,10 @@ Make sure only the coil of interest is selected before starting the acquisition.
 
 
 
-* The position the phantoms should be same as for the Siemens 'Customer QA' tests in:   
-***Options > Service > Customer QA***
+
+
+
+### The position the phantoms should be same as for the Siemens 'Customer QA' tests in:  
+### Options > Service > Customer QA
 
 
