@@ -12,7 +12,7 @@ Using foam support, place the bottle phantom inside the head coil until it touch
 Place the bottle phantom parallel to each other along the xy axis on the scanner table. Lightly wrap the phantoms with the coils on top. Make sure the centre of the coil is between the 2 bottles and the centre of the coil goes to the isocentre of the scanner (as shown below).   
 Make sure only the coil of interest is selected before starting the acquisition.
 
-![](media/MR2/torso.png) 
+![](media/guide.png) 
 
 
 ## Breast coils
