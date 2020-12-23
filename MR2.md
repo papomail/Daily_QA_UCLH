@@ -3,7 +3,7 @@
 <br/><br/>
 
 ## Labelling the DQA exams
-Create a new exam and enter the patient name as: 'DQA' + Coil to be tested. 
+Create a new exam and enter the patient name as: 'DQA' + Coil to be tested.   
 e.g:   **DQA Spine3**
 
 
@@ -12,6 +12,7 @@ From the main DQA tree (outside UCLH protocols), select the region and coil to b
 **DQA > Torso > Body18 long**   
 If needed adjust the planning so that the phantom is centred in FOV and run the protocol as is.
 
+<br/><br/>
 
 ## Positioning of phantoms
 
@@ -55,7 +56,7 @@ Make sure only the coil of interest is selected before starting the acquisition.
 
 
 
-#### *The position the phantoms should be same as for the Siemens 'Customer QA' tests in:*
+#### *The position of the phantoms should be same as for the Siemens 'Customer QA' tests in:*
 #### *Options > Service > Customer QA*
 
 
