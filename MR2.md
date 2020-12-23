@@ -9,7 +9,7 @@ Using foam support, place the bottle phantom inside the head coil until it touch
 
 <br/><br/>
 
-## Body18 & Body18-Long:
+## Body 18 & Body 18 long:
 Wrap the bottle phantom with the appropaite support-foams, as indicated below.
 Make sure only the coil of interest is selected before starting the acquisition.
 ![](media/guide.png) 
