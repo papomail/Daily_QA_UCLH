@@ -24,4 +24,4 @@ Ensure the breast coil is selected before starting the acquisition.
 ## Spine coils
 Place the long support foam on top of the spine-coil element to be tested and make sure it propeperly centred and align using the positioning laser of the scanner. Place the the bottle phantom centred on top of the foam.   
 Ensure the breast coil is selected before starting the acquisition.
-![](media/MR2/breast.png) 
+![](media/MR2/spine.png) 
