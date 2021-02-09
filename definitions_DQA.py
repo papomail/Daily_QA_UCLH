@@ -164,8 +164,9 @@ class SNR_test:
         j1 = str(files["json1"])
         name = str(files["nifti1"].stem)
         # self.name = name[0 : name.find("_DQA")]
-        # self.name = name[0 : name.find("_SNR")]
-        self.name = name[0 : name.find("_routine")]
+        self.name = name[0 : name.find("_SNR")]
+        # self.name = name[0 : name.find("_routine")]
+        
 # 
         self.i1 = image.load_img(str(self.im1_path))
         self.i2 = image.load_img(im2_path)
@@ -264,8 +265,12 @@ class SNR_test:
         results_df.to_csv(self.im1_path.parent / file_name)
         self.results_df = results_df
 
+
+        
+
     def df2mysql(self):
         self.results_df.to_sql(con=con, name='table_name_for_df', if_exists='replace', flavor='mysql')
+
 
 
     def calc_SNR_map(self):
@@ -283,3 +288,4 @@ class SNR_test:
             display_mode="tiled",
             title=f"{self.name}: nSNR={int(np.round(self.nSNR))}",
         )
+

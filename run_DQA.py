@@ -13,9 +13,14 @@ from datetime import datetime
 import pandas as pd
 import plotly.express as px
 import sys
+import sqlite3 as db
+# Create your connection.
+conn = db.connect(Path(__file__).resolve().parent/'db'/'app.db')
 
-# coil_list=['Spine1','Spine2','Spine3', 'Spine4','Spine5','Spine6','Spine7','Spine8']
-coil_list=['SP1','SP2','SP3', 'SP4','SP5','SP6','SP7', 'BM_', 'BMlong', 'Breast_r', 'Breast_Biopsy', 'FlexSmall', 'FlexLarge','Hand','Foot','Knee']
+# coil_list = ['Spine1','Spine2','Spine3', 'Spine4','Spine5','Spine6','Spine7','Spine8']
+# coil_list = ['SP1','SP2','SP3', 'SP4','SP5','SP6','SP7', 'BM_', 'BMlong', 'Breast_r', 'Breast_Biopsy', 'FlexSmall', 'FlexLarge','Hand','Foot','Knee']
+coil_list = ['DQA']
+
 
 def run_tests(input_folder):
     '''
@@ -48,6 +53,9 @@ def run_tests(input_folder):
     df_name = f'Results_Summary{datetime.now().strftime("_%d%b%Y")}.csv'
     all_df.to_csv(Path(nifti_folder).parent / df_name)
 
+
+    
+
     # NSNR bar plot (HTML)
     barchart = px.bar(
         all_df,
@@ -56,10 +64,53 @@ def run_tests(input_folder):
         error_y="NSNR_std",
         title=f"Daily QA: {all_df.ManufacturersModelName[0]} ({all_df.InstitutionAddress[0]})",
         color="Name",
-    )
+        )
+
     barchart.for_each_trace(lambda x: x.update(error_y_color=x.marker.color))
     barchart.show()
 
+    all_df['NSNR'] = all_df['NSNR'].astype(float).round(0)
+    barchart2 = px.bar(
+        all_df,
+        x="Name",
+        y="NSNR",
+        error_y="NSNR_std",
+        text="NSNR",
+        title=f"Spine Coils: {all_df.ManufacturersModelName[0]} ({all_df.InstitutionAddress[0]})",
+        # color="Name",
+    )
+    barchart2.for_each_trace(lambda x: x.update(error_y_color=x.marker.color))
+    barchart2.show()
+
+    return all_df
 
 
-run_tests(sys.argv[1])
+
+def small_df(df):
+    small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName','CoilString']]
+    small_df.columns = ['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName','CoilString']
+    try:
+        small_df[['ReceiveCoilName','ReceiveCoilActiveElements']] = df[['ReceiveCoilName','ReceiveCoilActiveElements']]
+    except:
+        pass
+    csv_name = f'small_df{datetime.now().strftime("_%d%b%Y")}.csv'
+    db_name = f'small_df{datetime.now().strftime("_%d%b%Y")}.db'
+
+    small_df.to_csv(Path(__file__).resolve().parent/'db'/  csv_name)
+    small_df.to_sql(name='DQA', con=conn, if_exists='append', index=False)
+
+
+# def update_db(new_csv, old_csv):
+#     data = pd.read_csv(Path(new_csv)
+    
+
+
+
+
+
+# script execution 
+large_df = run_tests(sys.argv[1])
+small_df(large_df)
+
+
+
