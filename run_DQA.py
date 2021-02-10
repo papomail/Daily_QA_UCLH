@@ -15,14 +15,15 @@ import plotly.express as px
 import sys
 import sqlite3 as db
 # Create your connection.
-conn = db.connect(Path(__file__).resolve().parent/'db'/'app.db')
+# conn = db.connect(Path(__file__).resolve().parent/'db'/'app.db')
+conn = db.connect('/Users/papo/Sync/Projects/DQA_WEB_APP/app/db/app.db')
 
 # coil_list = ['Spine1','Spine2','Spine3', 'Spine4','Spine5','Spine6','Spine7','Spine8']
 # coil_list = ['SP1','SP2','SP3', 'SP4','SP5','SP6','SP7', 'BM_', 'BMlong', 'Breast_r', 'Breast_Biopsy', 'FlexSmall', 'FlexLarge','Hand','Foot','Knee']
 coil_list = ['DQA']
 
 
-def run_tests(input_folder):
+def run_tests(input_folder='/Users/papo/Sync/MRdata/DQA'):
     '''
     run_tests:
     Run the DQA tests for all the datasets found inside the 'input_folder' (recursively).
