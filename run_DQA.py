@@ -1,9 +1,9 @@
-import sys
-try:
-    sys.argv[1]
-except:     
-    print('Please indicate which folder contains the DQA data?\ne.g. "run_DQA ~/DATA/test7"')
-    exit()
+# import sys
+# try:
+#     sys.argv[1]
+# except:     
+#     print('Please indicate which folder contains the DQA data?\ne.g. "run_DQA ~/DATA/test7"')
+#     exit()
 
 
 import definitions_DQA as dqa
@@ -13,10 +13,10 @@ from datetime import datetime
 import pandas as pd
 import plotly.express as px
 import sys
-import sqlite3 as db
+import sqlite3
 # Create your connection.
 # conn = db.connect(Path(__file__).resolve().parent/'db'/'app.db')
-conn = db.connect('/Users/papo/Sync/Projects/DQA_WEB_APP/app/db/app.db')
+conn = sqlite3.connect('/Users/papo/Sync/Projects/DQA_WEB_APP/app/db/app.db')
 
 # coil_list = ['Spine1','Spine2','Spine3', 'Spine4','Spine5','Spine6','Spine7','Spine8']
 # coil_list = ['SP1','SP2','SP3', 'SP4','SP5','SP6','SP7', 'BM_', 'BMlong', 'Breast_r', 'Breast_Biopsy', 'FlexSmall', 'FlexLarge','Hand','Foot','Knee']
@@ -87,18 +87,49 @@ def run_tests(input_folder='/Users/papo/Sync/MRdata/DQA'):
 
 
 
-def small_df(df):
+def small_df(df,connection):
     small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName','CoilString']]
     small_df.columns = ['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName','CoilString']
     try:
         small_df[['ReceiveCoilName','ReceiveCoilActiveElements']] = df[['ReceiveCoilName','ReceiveCoilActiveElements']]
     except:
         pass
+
+    small_df['Date'] = small_df['Date'].astype(str)
+
+
     csv_name = f'small_df{datetime.now().strftime("_%d%b%Y")}.csv'
     db_name = f'small_df{datetime.now().strftime("_%d%b%Y")}.db'
 
-    small_df.to_csv(Path(__file__).resolve().parent/'db'/  csv_name)
-    small_df.to_sql(name='DQA', con=conn, if_exists='append', index=False)
+    small_df.to_csv(Path(__file__).resolve().parent.parent/'DQA_WEB_APP'/'app'/'db'/  csv_name)
+    print(f'small_df =\n {small_df.head(10)}')
+
+    try:
+        old_df = pd.read_sql('SELECT * FROM DQA', connection)
+        print('connection ok')
+        print(f'old =\n {old_df.head(10)}')
+
+
+    except:
+        print('connection failed')
+        old_df = pd.DataFrame(columns=['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName','CoilString'])
+        print(f'old =\n {old_df.head(10)}')
+
+    
+    try:
+        print(old_df['Date'][0])
+        print(type(old_df['Date'][0]))
+        print(small_df['Date'][0])
+        print(type(small_df['Date'][0]))
+        print(f'equals? {old_df.equals(small_df)}')
+    except:
+        pass    
+
+    new_df = pd.concat([old_df, small_df])
+    print(f'merged =\n {new_df.head(10)}')
+    new_df.drop_duplicates(subset ='Date', keep = 'first', inplace = True)
+    print(f'cleaned =\n {new_df.head(10)}')
+    new_df.to_sql(name='DQA', con=conn, if_exists='replace',index=False)
 
 
 # def update_db(new_csv, old_csv):
@@ -110,8 +141,12 @@ def small_df(df):
 
 
 # script execution 
-large_df = run_tests(sys.argv[1])
-small_df(large_df)
+try:
+    large_df = run_tests(sys.argv[1])
+except:
+    large_df = run_tests()
+
+small_df(large_df,conn)
 
 
 
