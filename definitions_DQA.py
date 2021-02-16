@@ -80,7 +80,7 @@ def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
     return output_folder
 
 
-def parse_files(folder, keywords):
+def parse_files(folder, keywords, exclude='survey'):
     file_dic = []
     folder = Path(folder)
     
@@ -92,15 +92,16 @@ def parse_files(folder, keywords):
         nii_key=f"*{keword}*.nii"
         json_key=f"*{keword}*.json"
         
-        for (nifti, json) in zip(
-            sorted(folder.rglob(nii_key)), sorted(folder.rglob(json_key))
-        ):
-            if nifti.stem == json.stem:
+        for (nifti, json) in zip( sorted(folder.rglob(nii_key)), sorted(folder.rglob(json_key)) ):
+            if exclude in nifti.stem.lower(): # Get rid of unwanted files
+                continue
+            elif nifti.stem == json.stem:
                 file_dic.append({"nifti": nifti, "json": json})
             else:
                 raise Exception(
                     f"NIFTI and JSON files do NOT match:\nNIFTI: {nifti.name}\nJSON:  {json.name}"
                 )
+        
 
     """ Make sure the NIFTIs correspond to the 1st and 2nd scans of the sequence (not from other sequences) 
     """
