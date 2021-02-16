@@ -9,7 +9,7 @@ from pandas import json_normalize
 from skimage import filters
 
 
-def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
+def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/DQA", **kwargs):
     now = datetime.now()
     base_folder = Path(base_folder)
 
@@ -185,7 +185,8 @@ class SNR_test:
     def calc_SNR(self, signal, noise):
         signal[signal == 0] = np.nan
         #         noise[signal==0]=np.nan
-        sig=np.nanmean(signal)
+        # sig=np.nanmean(signal)
+        sig=np.nanmedian(signal)
         noise_std=np.nanstd(noise) 
         SNR = sig / noise_std / np.sqrt(2)
         SNR_std = np.nanstd(signal) / noise_std / np.sqrt(2)
