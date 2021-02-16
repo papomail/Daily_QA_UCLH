@@ -97,23 +97,27 @@ def small_df(df,connection):
 
     small_df['Date'] = small_df['Date'].astype(str)
 
+    small_df = small_df.fillna(None)
+
+
+    small_df.loc[small_df.Date  == '2021-02-11 19:00:08.150000', 'Coil'] = 'SPINE_DQA' #correct name NV16 to SPINE 
 
     csv_name = f'small_df{datetime.now().strftime("_%d%b%Y")}.csv'
     db_name = f'small_df{datetime.now().strftime("_%d%b%Y")}.db'
 
     small_df.to_csv(Path(__file__).resolve().parent.parent/'DQA_WEB_APP'/'app'/'db'/  csv_name)
-    print(f'small_df =\n {small_df.head(10)}')
+    print(f'small_df =\n {small_df.tail(10)}')
 
     try:
         old_df = pd.read_sql('SELECT * FROM DQA', connection)
         print('connection ok')
-        print(f'old =\n {old_df.head(10)}')
+        print(f'old =\n {old_df.tail(10)}')
 
 
     except:
         print('connection failed')
         old_df = pd.DataFrame(columns=['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName','CoilString'])
-        print(f'old =\n {old_df.head(10)}')
+        print(f'old =\n {old_df.tail(10)}')
 
     
     try:
@@ -126,9 +130,9 @@ def small_df(df,connection):
         pass    
 
     new_df = pd.concat([old_df, small_df])
-    print(f'merged =\n {new_df.head(10)}')
+    print(f'merged =\n {new_df.tail(10)}')
     new_df.drop_duplicates(subset ='Date', keep = 'first', inplace = True)
-    print(f'cleaned =\n {new_df.head(10)}')
+    print(f'cleaned =\n {new_df.tail(10)}')
     new_df.to_sql(name='DQA', con=conn, if_exists='replace',index=False)
 
 
