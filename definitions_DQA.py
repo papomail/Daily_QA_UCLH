@@ -7,9 +7,11 @@ import subprocess
 import json as js
 from pandas import json_normalize
 from skimage import filters
+from scipy import ndimage
+import plotly.express as px
 
 
-def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/DQA", **kwargs):
+def convert2NIFTI(base_folder, **kwargs):
     now = datetime.now()
     base_folder = Path(base_folder)
 
@@ -175,6 +177,7 @@ class SNR_test:
         self.calc_global_SNR()
         self.calc_nSNR()
         self.create_results_df()
+        self.calc_SNR_map()
 
     def load_json(self, jfile):
         with open(jfile) as f:
@@ -205,9 +208,9 @@ class SNR_test:
             mask2[:,:,0]=binary
             self.mask = image.new_img_like(self.imean, mask2)
 
-        imean = masking.apply_mask(self.imean, self.mask)
-        isub = masking.apply_mask(self.isub, self.mask)
-        self.SNR_global, self.SNR_global_std = self.calc_SNR(imean, isub)
+        mean = masking.apply_mask(self.imean, self.mask)
+        sub = masking.apply_mask(self.isub, self.mask)
+        self.SNR_global, self.SNR_global_std = self.calc_SNR(mean, sub)
 
     def calc_nSNR(self):
         # Slice_fact=1000*nfe*npe/(fovFE*fovPE*slide_thk)/sqrt(npe*TR);
@@ -276,7 +279,27 @@ class SNR_test:
 
 
     def calc_SNR_map(self):
-        pass
+        print(f'Generating SNR map. Please hold on...')
+        mean = self.imean.get_fdata()
+        sub = self.isub.get_fdata()
+
+        mean_map = ndimage.generic_filter(mean,np.nanmean,size=[5,5,1])
+        std_map = ndimage.generic_filter(sub,np.nanstd,size=[5,5,1])
+
+
+        snr_map = mean_map/std_map
+        # snr_map = image.new_img_like(self.imean, snr_map)
+        # snr_map = masking.apply_mask(snr_map, self.mask)
+        # snr_map = snr_map.get_fdata()
+
+        fig = px.imshow(mean.transpose(), facet_col=0, binary_string=False, facet_col_wrap=6)
+        fig.show()
+        fig = px.imshow(std_map.transpose(), facet_col=0, binary_string=False, facet_col_wrap=6)
+        fig.show()
+        fig = px.imshow(snr_map.transpose(), facet_col=0, binary_string=False, facet_col_wrap=6)
+        fig.show()
+        print(f'SNR map completed.')
+
 
     def plot(self, out_file="SNR_roi.png"):
         # prod=image.math_img("(i2 * i1)", i1=self.mask, i2=self.imean)

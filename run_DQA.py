@@ -1,9 +1,9 @@
-# import sys
-# try:
-#     sys.argv[1]
-# except:     
-#     print('Please indicate which folder contains the DQA data?\ne.g. "run_DQA ~/DATA/test7"')
-#     exit()
+import sys
+try:
+    sys.argv[1]
+except:     
+    print('Please indicate which folder contains the DQA data?\ne.g. "run_DQA ~/DATA/test7"')
+    exit()
 
 
 import definitions_DQA as dqa
@@ -20,7 +20,8 @@ conn = sqlite3.connect('/Users/papo/Sync/Projects/DQA_WEB_APP/app/db/app.db')
 
 # coil_list = ['Spine1','Spine2','Spine3', 'Spine4','Spine5','Spine6','Spine7','Spine8']
 # coil_list = ['SP1','SP2','SP3', 'SP4','SP5','SP6','SP7', 'BM_', 'BMlong', 'Breast_r', 'Breast_Biopsy', 'FlexSmall', 'FlexLarge','Hand','Foot','Knee']
-coil_list = ['DQA']
+coil_list = ['DQA','QA_HN20']
+# coil_list = ['QA_HN20']
 
 
 def run_tests(input_folder='/Users/papo/Sync/MRdata/DQA'):
@@ -97,7 +98,7 @@ def small_df(df,connection):
 
     small_df['Date'] = small_df['Date'].astype(str)
 
-    small_df = small_df.fillna(None)
+    small_df = small_df.fillna(0)
 
 
     small_df.loc[small_df.Date  == '2021-02-11 19:00:08.150000', 'Coil'] = 'SPINE_DQA' #correct name NV16 to SPINE 
@@ -144,13 +145,17 @@ def small_df(df,connection):
 
 
 
-# script execution 
-try:
-    large_df = run_tests(sys.argv[1])
-except:
-    large_df = run_tests()
+# # script execution 
+# try:
+#     print(f'running dqa in {sys.argv[1]} ')
+#     large_df = run_tests(sys.argv[1])
+# except:
+#     print('running dqa in the default folder')
+#     large_df = run_tests()
 
+# small_df(large_df,conn)
+
+
+
+large_df = run_tests(sys.argv[1])
 small_df(large_df,conn)
-
-
-
