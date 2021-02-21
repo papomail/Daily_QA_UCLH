@@ -177,7 +177,7 @@ class SNR_test:
         self.calc_global_SNR()
         self.calc_nSNR()
         self.create_results_df()
-        self.calc_SNR_map()
+        # self.calc_SNR_map()
 
     def load_json(self, jfile):
         with open(jfile) as f:
