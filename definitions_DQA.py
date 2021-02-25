@@ -26,11 +26,18 @@ def convert2NIFTI(base_folder, **kwargs):
         "dcm2niix_flag", False
     )  # Set dcm2nixx_flag=True to skip redoing the NIFTI conversion. (Creates an empty file 'dcm2niix_done' in every folder were dcm2niix was used).
 
+    #rename  folders if they contain spaces (dcm2niix does not like spaces)
+    for folder in sorted(base_folder.rglob("*")):
+            if folder.is_dir():
+                nospaces = str(folder).replace(' ','_')
+                folder.rename(nospaces)
+
     print("\nChecking if DICOM to NIFTI conversion is needed...\n")
     # get the testfolders in the base_folder (single child)
-    testfolders = [
-        folder for folder in sorted(base_folder.glob("*")) if folder.is_dir()
-    ]
+    testfolders = [folder for folder in sorted(base_folder.glob("*")) if folder.is_dir()]
+    
+
+
     needs_dcm2niix = []
     for i, testfolder in enumerate(testfolders):
         # print(f'output_folder={output_folder}')
@@ -85,7 +92,10 @@ def convert2NIFTI(base_folder, **kwargs):
 def parse_files(folder, keywords, exclude='survey'):
     file_dic = []
     folder = Path(folder)
-    
+
+    ''' rename files with trailing zeros '''
+    folder.rglob("*")
+
     """ Search for keywords to filter data with 
         and
         Make sure the NIFTI and JSON files correspond to each other 
