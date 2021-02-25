@@ -90,12 +90,17 @@ def run_tests(input_folder='/Users/papo/Sync/MRdata/DQA'):
 
 def small_df(df,connection):
     try:
-        small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName','CoilString']]
-        small_df.columns = ['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName','CoilString']
+        small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName','CoilString']]
+        small_df.columns = ['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName','CoilString']
     except:
-        small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName']]
-        small_df.columns = ['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionName','InstitutionalDepartmentName','InstitutionAddress','StationName','ProtocolName']
-
+        small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName']]
+        small_df.columns = ['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName']
+    
+    try:
+        small_df[['InstitutionName','InstitutionalDepartmentName']]=df[['InstitutionName','InstitutionalDepartmentName']]
+    except:
+        pass
+    
     try:
         small_df[['ReceiveCoilName','ReceiveCoilActiveElements']] = df[['ReceiveCoilName','ReceiveCoilActiveElements']]
     except:
