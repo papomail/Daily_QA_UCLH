@@ -93,8 +93,21 @@ def parse_files(folder, keywords, exclude='survey'):
     file_dic = []
     folder = Path(folder)
 
-    ''' rename files with trailing zeros '''
-    folder.rglob("*")
+
+    ''' rename files with trailing zeros if needed. (e.g. 'file_12.nii' -> 'file_012.nii', 'file_3.json' -> 'file_003.json') '''
+    for file in folder.rglob('*'): 
+        if file.suffix == '.json' or file.suffix == '.nii':
+            if file.stem[-3] == '_':
+                new = file.parents[0]/''.join([file.stem[:-2],file.stem[-2:].zfill(3),file.suffix])
+                print(f'\nrenaming file with trailing zeros:\n{file}\n{new}\n ')
+                file.rename(new)
+                
+            elif file.stem[-2] == '_':
+                new = file.parents[0]/''.join([file.stem[:-1],file.stem[-1:].zfill(3),file.suffix])
+                print(f'\nrenaming file with trailing zeros:\n{file}\n{new}\n ')
+                file.rename(new)
+
+
 
     """ Search for keywords to filter data with 
         and
@@ -184,6 +197,30 @@ class SNR_test:
         self.i1 = image.load_img(str(self.im1_path))
         self.i2 = image.load_img(im2_path)
         self.j1 = self.load_json(j1)
+    
+
+
+
+
+
+
+        ''' remove the top 3 slices in MR2 data'''
+        if self.j1['StationName'] == 'MRC25326':
+            try:
+                print(f'Excluding the top 3 slices of {self.name} (MR2 data).')
+                i1_trimmed = self.i1.get_fdata()[:,:,0:-3]
+                i2_trimmed = self.i2.get_fdata()[:,:,0:-3]
+                self.i1 = image.new_img_like(self.i1, i1_trimmed)
+                self.i2 = image.new_img_like(self.i2, i2_trimmed)
+            except:
+                print(f'Unable to exclude top slices. Clue: check {self.name} is multislice (there should be 11 slices)' )    
+        
+
+
+
+
+
+
         self.calc_global_SNR()
         self.calc_nSNR()
         self.create_results_df()
@@ -203,7 +240,7 @@ class SNR_test:
         noise_std=np.nanstd(noise) 
         SNR = sig / noise_std / np.sqrt(2)
         SNR_std = np.nanstd(signal) / noise_std / np.sqrt(2)
-        return SNR, SNR_std
+        return SNR, SNR_std, noise_std
 
     def calc_global_SNR(self):
         self.imean = image.mean_img([self.i1, self.i2])
@@ -220,7 +257,7 @@ class SNR_test:
 
         mean = masking.apply_mask(self.imean, self.mask)
         sub = masking.apply_mask(self.isub, self.mask)
-        self.SNR_global, self.SNR_global_std = self.calc_SNR(mean, sub)
+        self.SNR_global, self.SNR_global_std, self.noise_std= self.calc_SNR(mean, sub)
 
     def calc_nSNR(self):
         # Slice_fact=1000*nfe*npe/(fovFE*fovPE*slide_thk)/sqrt(npe*TR);
@@ -262,6 +299,7 @@ class SNR_test:
             "NSNR_std": self.nSNR_std,
             "SNR": self.SNR_global,
             "SNR_std": self.SNR_global_std,
+            "noise_std": self.noise_std,
             "File": str(self.im1_path.stem),
             "AcquisitonMatrix": self.acquisiton_matrix,
             "AcquisitonPixdim": self.acquisiton_pixdim,

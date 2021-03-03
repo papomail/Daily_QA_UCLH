@@ -45,7 +45,7 @@ def run_tests(input_folder='/Users/papo/Sync/MRdata/DQA'):
         print(f"test {n+1}, {test.name}:")
         print(f"   SNR={int(np.round(test.SNR_global))}")
         print(f"   nSNR={int(np.round(test.nSNR))}\n")
-        test.plot(out_file=Path(nifti_folder).parent / f"Test{n+1}_ROI.png")
+        test.plot(out_file=Path(nifti_folder).parent / f"{test_files[n]['nifti1'].stem}_ROI.png")
         frames.append(test.results_df)
 
     all_df = pd.concat(frames).reindex()
@@ -90,17 +90,17 @@ def run_tests(input_folder='/Users/papo/Sync/MRdata/DQA'):
 
 def small_df(df,connection):
     try:
-        small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName','CoilString']]
-        small_df.columns = ['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName','CoilString']
+        small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std', 'noise_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName','CoilString']]
+        small_df.columns = ['Date','Coil','NSNR','NSNR_std','noise_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName','CoilString']
     except:
-        small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName']]
-        small_df.columns = ['Date','Coil','NSNR','NSNR_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName']
+        small_df = df[['Acquisition Date', 'Name','NSNR','NSNR_std','noise_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName']]
+        small_df.columns = ['Date','Coil','NSNR','NSNR_std','noise_std','Manufacturer','ManufacturersModelName','InstitutionAddress','StationName','ProtocolName']
     
     try:
         small_df[['InstitutionName','InstitutionalDepartmentName']]=df[['InstitutionName','InstitutionalDepartmentName']]
     except:
         pass
-    
+
     try:
         small_df[['ReceiveCoilName','ReceiveCoilActiveElements']] = df[['ReceiveCoilName','ReceiveCoilActiveElements']]
     except:
