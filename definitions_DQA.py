@@ -7,9 +7,11 @@ import subprocess
 import json as js
 from pandas import json_normalize
 from skimage import filters
+from scipy import ndimage
+import plotly.express as px
 
 
-def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
+def convert2NIFTI(base_folder, **kwargs):
     now = datetime.now()
     base_folder = Path(base_folder)
 
@@ -21,14 +23,21 @@ def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
     output_folder = kwargs.get("output_folder", default_outdir)
     dcm2niix_path = kwargs.get("dcm2niix_path", "dcm2niix")
     dcm2niix_flag = kwargs.get(
-        "dcm2nixx_flag", False
+        "dcm2niix_flag", False
     )  # Set dcm2nixx_flag=True to skip redoing the NIFTI conversion. (Creates an empty file 'dcm2niix_done' in every folder were dcm2niix was used).
+
+    #rename  folders if they contain spaces (dcm2niix does not like spaces)
+    for folder in sorted(base_folder.rglob("*")):
+            if folder.is_dir():
+                nospaces = str(folder).replace(' ','_')
+                folder.rename(nospaces)
 
     print("\nChecking if DICOM to NIFTI conversion is needed...\n")
     # get the testfolders in the base_folder (single child)
-    testfolders = [
-        folder for folder in sorted(base_folder.glob("*")) if folder.is_dir()
-    ]
+    testfolders = [folder for folder in sorted(base_folder.glob("*")) if folder.is_dir()]
+    
+
+
     needs_dcm2niix = []
     for i, testfolder in enumerate(testfolders):
         # print(f'output_folder={output_folder}')
@@ -80,10 +89,26 @@ def convert2NIFTI(base_folder=Path.home() / "Sync/MRdata/Avanto_MR2", **kwargs):
     return output_folder
 
 
-def parse_files(folder, keywords):
+def parse_files(folder, keywords, exclude='survey'):
     file_dic = []
     folder = Path(folder)
-    
+
+
+    ''' rename files with trailing zeros if needed. (e.g. 'file_12.nii' -> 'file_012.nii', 'file_3.json' -> 'file_003.json') '''
+    for file in folder.rglob('*'): 
+        if file.suffix == '.json' or file.suffix == '.nii':
+            if file.stem[-3] == '_':
+                new = file.parents[0]/''.join([file.stem[:-2],file.stem[-2:].zfill(3),file.suffix])
+                print(f'\nrenaming file with trailing zeros:\n{file}\n{new}\n ')
+                file.rename(new)
+                
+            elif file.stem[-2] == '_':
+                new = file.parents[0]/''.join([file.stem[:-1],file.stem[-1:].zfill(3),file.suffix])
+                print(f'\nrenaming file with trailing zeros:\n{file}\n{new}\n ')
+                file.rename(new)
+
+
+
     """ Search for keywords to filter data with 
         and
         Make sure the NIFTI and JSON files correspond to each other 
@@ -92,15 +117,16 @@ def parse_files(folder, keywords):
         nii_key=f"*{keword}*.nii"
         json_key=f"*{keword}*.json"
         
-        for (nifti, json) in zip(
-            sorted(folder.rglob(nii_key)), sorted(folder.rglob(json_key))
-        ):
-            if nifti.stem == json.stem:
+        for (nifti, json) in zip( sorted(folder.rglob(nii_key)), sorted(folder.rglob(json_key)) ):
+            if exclude in nifti.stem.lower(): # Get rid of unwanted files
+                continue
+            elif nifti.stem == json.stem:
                 file_dic.append({"nifti": nifti, "json": json})
             else:
                 raise Exception(
                     f"NIFTI and JSON files do NOT match:\nNIFTI: {nifti.name}\nJSON:  {json.name}"
                 )
+        
 
     """ Make sure the NIFTIs correspond to the 1st and 2nd scans of the sequence (not from other sequences) 
     """
@@ -164,15 +190,41 @@ class SNR_test:
         j1 = str(files["json1"])
         name = str(files["nifti1"].stem)
         # self.name = name[0 : name.find("_DQA")]
-        # self.name = name[0 : name.find("_SNR")]
-        self.name = name[0 : name.find("_routine")]
+        self.name = name[0 : name.find("_SNR")]
+        # self.name = name[0 : name.find("_routine")]
+        
 # 
         self.i1 = image.load_img(str(self.im1_path))
         self.i2 = image.load_img(im2_path)
         self.j1 = self.load_json(j1)
+    
+
+
+
+
+
+
+        ''' remove the top 3 slices in MR2 data'''
+        if self.j1['StationName'] == 'MRC25326':
+            try:
+                print(f'Excluding the top 3 slices of {self.name} (MR2 data).')
+                i1_trimmed = self.i1.get_fdata()[:,:,0:-3]
+                i2_trimmed = self.i2.get_fdata()[:,:,0:-3]
+                self.i1 = image.new_img_like(self.i1, i1_trimmed)
+                self.i2 = image.new_img_like(self.i2, i2_trimmed)
+            except:
+                print(f'Unable to exclude top slices. Clue: check {self.name} is multislice (there should be 11 slices)' )    
+        
+
+
+
+
+
+
         self.calc_global_SNR()
         self.calc_nSNR()
         self.create_results_df()
+        # self.calc_SNR_map()
 
     def load_json(self, jfile):
         with open(jfile) as f:
@@ -183,11 +235,12 @@ class SNR_test:
     def calc_SNR(self, signal, noise):
         signal[signal == 0] = np.nan
         #         noise[signal==0]=np.nan
-        sig=np.nanmean(signal)
+        # sig=np.nanmean(signal)
+        sig=np.nanmedian(signal)
         noise_std=np.nanstd(noise) 
         SNR = sig / noise_std / np.sqrt(2)
         SNR_std = np.nanstd(signal) / noise_std / np.sqrt(2)
-        return SNR, SNR_std
+        return SNR, SNR_std, noise_std
 
     def calc_global_SNR(self):
         self.imean = image.mean_img([self.i1, self.i2])
@@ -202,9 +255,9 @@ class SNR_test:
             mask2[:,:,0]=binary
             self.mask = image.new_img_like(self.imean, mask2)
 
-        imean = masking.apply_mask(self.imean, self.mask)
-        isub = masking.apply_mask(self.isub, self.mask)
-        self.SNR_global, self.SNR_global_std = self.calc_SNR(imean, isub)
+        mean = masking.apply_mask(self.imean, self.mask)
+        sub = masking.apply_mask(self.isub, self.mask)
+        self.SNR_global, self.SNR_global_std, self.noise_std= self.calc_SNR(mean, sub)
 
     def calc_nSNR(self):
         # Slice_fact=1000*nfe*npe/(fovFE*fovPE*slide_thk)/sqrt(npe*TR);
@@ -246,6 +299,7 @@ class SNR_test:
             "NSNR_std": self.nSNR_std,
             "SNR": self.SNR_global,
             "SNR_std": self.SNR_global_std,
+            "noise_std": self.noise_std,
             "File": str(self.im1_path.stem),
             "AcquisitonMatrix": self.acquisiton_matrix,
             "AcquisitonPixdim": self.acquisiton_pixdim,
@@ -264,12 +318,36 @@ class SNR_test:
         results_df.to_csv(self.im1_path.parent / file_name)
         self.results_df = results_df
 
+
+        
+
     def df2mysql(self):
         self.results_df.to_sql(con=con, name='table_name_for_df', if_exists='replace', flavor='mysql')
 
 
+
     def calc_SNR_map(self):
-        pass
+        print(f'Generating SNR map. Please hold on...')
+        mean = self.imean.get_fdata()
+        sub = self.isub.get_fdata()
+
+        mean_map = ndimage.generic_filter(mean,np.nanmean,size=[5,5,1])
+        std_map = ndimage.generic_filter(sub,np.nanstd,size=[5,5,1])
+
+
+        snr_map = mean_map/std_map
+        # snr_map = image.new_img_like(self.imean, snr_map)
+        # snr_map = masking.apply_mask(snr_map, self.mask)
+        # snr_map = snr_map.get_fdata()
+
+        fig = px.imshow(mean.transpose(), facet_col=0, binary_string=False, facet_col_wrap=6)
+        fig.show()
+        fig = px.imshow(std_map.transpose(), facet_col=0, binary_string=False, facet_col_wrap=6)
+        fig.show()
+        fig = px.imshow(snr_map.transpose(), facet_col=0, binary_string=False, facet_col_wrap=6)
+        fig.show()
+        print(f'SNR map completed.')
+
 
     def plot(self, out_file="SNR_roi.png"):
         # prod=image.math_img("(i2 * i1)", i1=self.mask, i2=self.imean)
@@ -283,3 +361,4 @@ class SNR_test:
             display_mode="tiled",
             title=f"{self.name}: nSNR={int(np.round(self.nSNR))}",
         )
+
