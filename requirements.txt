@@ -7,7 +7,6 @@ nilearn==0.6.2
 numpy==1.18.4
 packaging==20.4
 pandas==1.0.3
-Pillow
 plotly==4.9.0
 pyparsing==2.4.7
 python-dateutil==2.8.1
@@ -19,3 +18,4 @@ six==1.15.0
 sklearn==0.0
 threadpoolctl==2.1.0
 skimage
+Pillow
