@@ -146,6 +146,22 @@ def parse_files(folder, keywords, exclude='survey'):
         f1_nosuffix = f1stem[0:suffix_index]
         f2_nosuffix = f2stem[0:suffix_index]
 
+
+
+        ''' TO IMPLEMENT: Fix PBT naming mismatch by ignoring the additional number: 
+        WIP_Head_DQA_2dynamics_20210406122325_202002_t110000
+        when "StationName": "PHILIPS-499QHGT" '''
+        # if self.j1['StationName'] == 'MRC25326':
+        #     try:
+        #         print(f'Excluding the top 3 slices of {self.name} (MR2 data).')
+        #         i1_trimmed = self.i1.get_fdata()[:,:,0:-3]
+        #         i2_trimmed = self.i2.get_fdata()[:,:,0:-3]
+        #         self.i1 = image.new_img_like(self.i1, i1_trimmed)
+        #         self.i2 = image.new_img_like(self.i2, i2_trimmed)
+        #     except:
+        #         print(f'Unable to exclude top slices. Clue: check {self.name} is multislice (there should be 11 slices)' )    
+        
+
         if f1["nifti"] != f2["nifti"] and  f1_nosuffix == f2_nosuffix:
             file_dic2.append(
                 {
