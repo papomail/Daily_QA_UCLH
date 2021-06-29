@@ -289,6 +289,9 @@ class SNR_test:
         nfe = int(np.round(100 * npe / info["PercentSampling"]))
         self.sl_thk = info["SliceThickness"]
         self.TR = info["RepetitionTime"]
+        if self.TR>3:
+            self.TR = info["RepetitionTimeExcitation"]
+            
         pdims = self.i1.header["pixdim"]
         self.recon_matrix = info["ReconMatrixPE"]
         pdim1 = (
