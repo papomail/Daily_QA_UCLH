@@ -24,8 +24,13 @@ def fsl_split(nii):
     subprocess.run(['rm', original_json])
     return
 
-folder = input('Select the folder with the 4D data ')
-[fsl_split(nii) for nii in Path(folder).rglob('*.nii') if '_DQA_2dynamics_' in str(nii)]
+def run_fsl_split(data_folder):
+    print('\nSplitting 4D data')
+    return [fsl_split(nii) for nii in Path(data_folder).rglob('*.nii') if '_DQA_2dynamics_' in str(nii)]
+
+if __name__=="__main__":
+    folder = input('Select the folder with the 4D data ')
+    [fsl_split(nii) for nii in Path(folder).rglob('*.nii') if '_DQA_2dynamics_' in str(nii)]
 
 
 

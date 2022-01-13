@@ -7,6 +7,7 @@ except:
 
 
 import definitions_DQA as dqa
+from fsl_split import run_fsl_split
 from pathlib import Path
 import numpy as np
 from datetime import datetime
@@ -35,6 +36,7 @@ def run_tests(input_folder='/Users/papo/Sync/MRdata/DQA'):
 
     input_folder = Path(input_folder)
     nifti_folder = dqa.convert2NIFTI(input_folder)
+    run_fsl_split(nifti_folder) #Split any 4d-data with fsl_split
     test_files = dqa.parse_files(nifti_folder,coil_list)
     tests = [dqa.SNR_test(files) for files in test_files]
 
