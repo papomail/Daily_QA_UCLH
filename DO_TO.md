@@ -1,0 +1,1 @@
+  - [x] ~~Insert fsl_split right after the dcm2niix conversion. (Use the same folder as the test-data)~~
