@@ -17,7 +17,10 @@ import sys
 import sqlite3
 # Create your connection.
 # conn = db.connect(Path(__file__).resolve().parent/'db'/'app.db')
-conn = sqlite3.connect('/Users/papo/Sync/Projects/DQA_WEB_APP/app/db/app.db')
+
+database = Path.home()/'Sync/Projects/DQA_WEB_APP/app/db/app.db'
+conn = sqlite3.connect(database)
+# conn = sqlite3.connect('/Users/papo/Sync/Projects/DQA_WEB_APP/app/db/app.db')
 
 # coil_list = ['Spine1','Spine2','Spine3', 'Spine4','Spine5','Spine6','Spine7','Spine8']
 # coil_list = ['SP1','SP2','SP3', 'SP4','SP5','SP6','SP7', 'BM_', 'BMlong', 'Breast_r', 'Breast_Biopsy', 'FlexSmall', 'FlexLarge','Hand','Foot','Knee']
